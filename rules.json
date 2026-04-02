@@ -1,0 +1,294 @@
+{
+  "file_string_rules": [
+    {
+      "name": "PowerShell 호출 문자열",
+      "patterns": [
+        "powershell",
+        "powershell.exe",
+        "ExecutionPolicy",
+        "ExecutionPolicy Bypass",
+        "Invoke-WebRequest",
+        "DownloadString",
+        "Start-Process",
+        "Test-NetConnection",
+        "Get-CimInstance",
+        "Out-File"
+      ],
+      "score": 18,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "CMD 정보수집 문자열",
+      "patterns": [
+        "cmd.exe",
+        "systeminfo",
+        "ipconfig",
+        "ipconfig /all",
+        "netstat",
+        "netstat -ano",
+        "whoami",
+        "whoami /all",
+        "tasklist",
+        "net user"
+      ],
+      "score": 18,
+      "all_required": false,
+      "severity": "medium"
+    },
+    {
+      "name": "레지스트리 지속성 문자열",
+      "patterns": [
+        "reg add",
+        "CurrentVersion\\\\Run",
+        "RunOnce",
+        "DisableTaskMgr",
+        "DisableRegistryTools",
+        "EnableLUA",
+        "ConsentPromptBehaviorAdmin",
+        "DisableRealtimeMonitoring",
+        "AntiVirusDisableNotify"
+      ],
+      "score": 20,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "방어 우회 및 정책 변경 문자열",
+      "patterns": [
+        "Windows Defender",
+        "Set-NetFirewallProfile",
+        "Register-ScheduledTask",
+        "New-ScheduledTaskAction",
+        "New-ScheduledTaskTrigger",
+        "root/SecurityCenter2",
+        "AntiVirusProduct"
+      ],
+      "score": 20,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "훈련 경로 및 산출물 문자열",
+      "patterns": [
+        "C:\\\\Temp",
+        "system_recon_report.txt",
+        "ps_execution_log.txt",
+        "project_test.ps1",
+        "gemini_ransom_test.ps1",
+        "Restart_Flag.txt",
+        "Staging"
+      ],
+      "score": 10,
+      "all_required": false,
+      "severity": "low"
+    },
+
+    {
+      "name": "PowerShell 난독화 문자열",
+      "patterns": [
+        "FromBase64String",
+        "IEX",
+        "Invoke-Expression",
+        "-enc",
+        "-encodedcommand"
+      ],
+      "score": 22,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "PowerShell 파일 수집/스테이징 문자열",
+      "patterns": [
+        "Copy-Item",
+        "Get-ChildItem",
+        "New-Item",
+        "$stageDir",
+        "Staging"
+      ],
+      "score": 16,
+      "all_required": false,
+      "severity": "medium"
+    },
+    {
+      "name": "PowerShell 스케줄러 지속성 문자열",
+      "patterns": [
+        "Register-ScheduledTask",
+        "New-ScheduledTaskAction",
+        "New-ScheduledTaskTrigger",
+        "WindowsSecurityCheck"
+      ],
+      "score": 18,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "PowerShell 방화벽/보안 설정 변경 문자열",
+      "patterns": [
+        "Set-NetFirewallProfile",
+        "-Enabled False",
+        "Get-CimInstance",
+        "AntiVirusProduct"
+      ],
+      "score": 18,
+      "all_required": false,
+      "severity": "high"
+    },
+    {
+      "name": "PowerShell 로그/결과 파일 문자열",
+      "patterns": [
+        "ps_execution_log.txt",
+        "system_recon_report.txt",
+        "Out-File",
+        "C:\\\\Temp"
+      ],
+      "score": 12,
+      "all_required": false,
+      "severity": "medium"
+    }
+  ],
+
+  "artifact_rules": [
+    {
+      "name": "C:\\\\Temp\\\\test.exe 존재",
+      "path": "C:\\\\Temp\\\\test.exe",
+      "score": 15,
+      "severity": "high"
+    },
+    {
+      "name": "C:\\\\Temp\\\\project_test.ps1 존재",
+      "path": "C:\\\\Temp\\\\project_test.ps1",
+      "score": 12,
+      "severity": "medium"
+    },
+    {
+      "name": "C:\\\\Temp\\\\gemini_ransom_test.ps1 존재",
+      "path": "C:\\\\Temp\\\\gemini_ransom_test.ps1",
+      "score": 18,
+      "severity": "high"
+    },
+    {
+      "name": "C:\\\\Temp\\\\system_recon_report.txt 존재",
+      "path": "C:\\\\Temp\\\\system_recon_report.txt",
+      "score": 10,
+      "severity": "medium"
+    },
+    {
+      "name": "C:\\\\Temp\\\\ps_execution_log.txt 존재",
+      "path": "C:\\\\Temp\\\\ps_execution_log.txt",
+      "score": 10,
+      "severity": "medium"
+    },
+    {
+      "name": "C:\\\\Temp\\\\Restart_Flag.txt 존재",
+      "path": "C:\\\\Temp\\\\Restart_Flag.txt",
+      "score": 8,
+      "severity": "low"
+    },
+    {
+      "name": "C:\\\\Temp\\\\Staging 폴더 존재",
+      "path": "C:\\\\Temp\\\\Staging",
+      "score": 15,
+      "severity": "medium"
+    }
+  ],
+
+  "registry_rules": [
+    {
+      "name": "Run 지속성 확인",
+      "root": "HKCU",
+      "subkey": "Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+      "value": "UpdateService",
+      "score": 18,
+      "severity": "high"
+    },
+    {
+      "name": "작업 관리자 비활성화",
+      "root": "HKCU",
+      "subkey": "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "DisableTaskMgr",
+      "expected": 1,
+      "score": 14,
+      "severity": "high"
+    },
+    {
+      "name": "레지스트리 편집기 비활성화",
+      "root": "HKCU",
+      "subkey": "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "DisableRegistryTools",
+      "expected": 1,
+      "score": 14,
+      "severity": "high"
+    },
+    {
+      "name": "UAC 비활성화",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "EnableLUA",
+      "expected": 0,
+      "score": 20,
+      "severity": "critical"
+    },
+    {
+      "name": "Defender 실시간 감시 비활성화",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection",
+      "value": "DisableRealtimeMonitoring",
+      "expected": 1,
+      "score": 18,
+      "severity": "critical"
+    },
+    {
+      "name": "관리자 UAC 프롬프트 우회",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "ConsentPromptBehaviorAdmin",
+      "expected": 0,
+      "score": 16,
+      "severity": "high"
+    },
+    {
+      "name": "확장자 숨김 설정",
+      "root": "HKCU",
+      "subkey": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "value": "HideFileExt",
+      "expected": 1,
+      "score": 8,
+      "severity": "medium"
+    },
+    {
+      "name": "숨김 파일 표시 조작",
+      "root": "HKCU",
+      "subkey": "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced",
+      "value": "Hidden",
+      "expected": 2,
+      "score": 8,
+      "severity": "medium"
+    },
+    {
+      "name": "백신 알림 비활성화",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Microsoft\\Security Center",
+      "value": "AntiVirusDisableNotify",
+      "expected": 1,
+      "score": 12,
+      "severity": "high"
+    },
+    {
+      "name": "로그온 경고문구 설정",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "legalnoticetext",
+      "score": 6,
+      "severity": "low"
+    },
+    {
+      "name": "로그온 경고 제목 설정",
+      "root": "HKLM",
+      "subkey": "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System",
+      "value": "legalnoticecaption",
+      "score": 6,
+      "severity": "low"
+    }
+  ]
+}
