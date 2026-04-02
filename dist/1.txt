@@ -1,0 +1,31 @@
+========================================================================
+훈련용 악성코드 탐지 결과 보고서
+========================================================================
+분석 시각 : 2026-04-02 16:13:11
+대상 파일 : project_test.ps1
+위험도    : HIGH (점수 132)
+
+[파일 정보]
+- 경로      : C:\Users\ez\merged_training_detector_v2\dist\project_test.ps1
+- 크기      : 1.85 KB
+- PE 여부   : 아니오
+- MD5       : d9d9453291223256980497574fdad3b9
+- SHA-1     : 071736c5eef49650c2409335c489f372f0cd29f3
+- SHA-256   : 2038b10dda944c8031ac791a38053dc4ab5ae8ceea299565d0fe5798fe4daa8e
+
+[정적 탐지 결과]
+- 파일 문자열 | PowerShell 호출 문자열 | high | +18 | powershell, Test-NetConnection, Get-CimInstance, Out-File
+- 파일 문자열 | 방어 우회 및 정책 변경 문자열 | high | +20 | Set-NetFirewallProfile, Register-ScheduledTask, New-ScheduledTaskAction, New-ScheduledTaskTrigger, root/SecurityCenter2, AntiVirusProduct
+- 파일 문자열 | 훈련 경로 및 산출물 문자열 | low | +10 | ps_execution_log.txt, gemini_ransom_test.ps1, Staging
+- 파일 문자열 | PowerShell 파일 수집/스테이징 문자열 | medium | +16 | Copy-Item, Get-ChildItem, New-Item, $stageDir, Staging
+- 파일 문자열 | PowerShell 스케줄러 지속성 문자열 | high | +18 | Register-ScheduledTask, New-ScheduledTaskAction, New-ScheduledTaskTrigger, WindowsSecurityCheck
+- 파일 문자열 | PowerShell 방화벽/보안 설정 변경 문자열 | high | +18 | Set-NetFirewallProfile, -Enabled False, Get-CimInstance, AntiVirusProduct
+- 파일 문자열 | PowerShell 로그/결과 파일 문자열 | medium | +12 | ps_execution_log.txt, Out-File
+
+[시스템 흔적 결과]
+- 숨김 파일 표시 조작 | medium | +8 | HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -> Hidden = 2
+- 로그온 경고문구 설정 | low | +6 | HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -> legalnoticetext = 
+- 로그온 경고 제목 설정 | low | +6 | HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -> legalnoticecaption = 
+
+[YARA 결과]
+- (compile) | error | YARA 컴파일 실패: C:\Users\ez\merged_training_detector_v2\dist\gptrule.yar(53): unreferenced string "$ps1"
